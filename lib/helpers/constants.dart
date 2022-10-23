@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart'
-    show Alignment, Color, Colors, LinearGradient;
+    show Alignment, Color, Colors, LinearGradient, MediaQueryData, WidgetsBinding;
 import 'package:flutter/material.dart'
     show Color, Colors, FontWeight, TextStyle;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +15,9 @@ NumberFormat numberFormat = NumberFormat('#,##,000.0#');
 DateTime get getCurrentDateTime => DateTime.now();
 String get getCurrentFormattedDate => dateFormat.format(DateTime.now());
 String get getCurrentFormattedTime => timeFormat.format(DateTime.now());
+
+//device width and height
+final dSize = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size;
 
 //WebView User Agent
 const String webViewUserAgent =
@@ -77,7 +80,7 @@ LinearGradient bgColor = LinearGradient(
 const Color textColor = Color(0xFFFFFFFF);
 
 // Color kLightPrimaryColor = Colors.blue.shade900.withOpacity(0.85);
-Color kLightPrimaryColor = Color(0xffF5F5F5);
+Color kLightPrimaryColor = const Color(0xffF5F5F5);
 
 const kPrimaryColor = Color(0xff009CFF);
 const kSecondPrimaryColor = Color(0xff019DA2);
