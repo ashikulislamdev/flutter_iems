@@ -9,6 +9,7 @@ class MyAppBar extends StatelessWidget  with PreferredSizeWidget{
     return AppBar( 
         title: const Text("This is title"),
         centerTitle: true,
+        elevation: 0,
         actions: [
           PopupMenuButton(
             padding: const EdgeInsets.all(0),

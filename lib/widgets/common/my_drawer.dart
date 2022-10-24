@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iems/helpers/constants.dart';
+import 'package:flutter_iems/screens/add_income.dart';
+import 'package:flutter_iems/screens/home_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../general_card.dart';
 import '../info_card.dart';
@@ -71,13 +73,17 @@ class MyDrawer extends StatelessWidget {
           GeneralCard(
             image: "assets/icons/dashboard-icon.png",
             title: "Dashboard",
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomeScreen()));
+            },
           ),
           buildDiv(),
           GeneralCard(
             image: "assets/icons/add-income.png",
             title: "Add Income",
-            onTap: () { },
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AddIncome()));
+            },
           ),
           buildDiv(),
           GeneralCard(
