@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iems/widgets/custom_text_field.dart';
+import 'package:flutter_iems/widgets/text_fields/custom_text_field.dart';
 import 'package:flutter_iems/widgets/custom_txt_brn.dart';
 
 class LoginScreen extends StatelessWidget {

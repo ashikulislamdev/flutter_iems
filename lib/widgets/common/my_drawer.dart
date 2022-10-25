@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iems/helpers/constants.dart';
+import 'package:flutter_iems/screens/add_expenses.dart';
 import 'package:flutter_iems/screens/add_income.dart';
 import 'package:flutter_iems/screens/home_screen.dart';
+import 'package:flutter_iems/screens/login_page.dart';
+import 'package:flutter_iems/screens/profile_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../general_card.dart';
 import '../info_card.dart';
@@ -24,7 +27,9 @@ class MyDrawer extends StatelessWidget {
             child: Row(
               children: [
                 InkWell(
-                  onTap: (){},
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserProfile() ));
+                  },
                   child: CircleAvatar(
                     radius: 42.r,
                     backgroundColor: kSecondPrimaryColor,
@@ -95,7 +100,9 @@ class MyDrawer extends StatelessWidget {
           GeneralCard(
             image: "assets/icons/add-expenses.png",
             title: "Add Expenses",
-            onTap: () { },
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AddExpenses()));
+            },
           ),
           buildDiv(),
           GeneralCard(
@@ -119,9 +126,13 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           buildDiv(),
-          const InfoCard(title: "Profile"),
+          InfoCard(title: "Profile", onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserProfile() ));
+          },),
           buildDiv(),
-          const InfoCard(title: "Logout"),
+          InfoCard(title: "Logout", onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginPage() ));
+          },),
           buildDiv(),
       
           SizedBox(height: kDefaultPadding),
