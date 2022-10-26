@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 import 'package:flutter_iems/helpers/constants.dart';
 
 class ManagePageCard extends StatelessWidget {
@@ -17,36 +15,24 @@ class ManagePageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.4),
-            spreadRadius: 2,
-            blurRadius: 8,
-          ),
-        ],
         borderRadius: BorderRadius.circular(10),
         color: white
       ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(ieDate, style: kTitleTextstyle.copyWith(fontWeight: FontWeight.bold, color: kPrimaryColor, fontSize: 16)),
-              Text("$amount ৳", style: kTitleTextstyle.copyWith(fontWeight: FontWeight.bold, color: const Color(0xFFF44336), fontSize: 16),),
-            ],
-          ),
-          const SizedBox(height: 5,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(width: dSize.width / 1.6, child: Text(description, style: kTitleTextstyle.copyWith(fontSize: 13),)),
-              ElevatedButton(onPressed: onPressed, child: const Text("Details"),)
-            ],
-          )
-        ],
+      child: ListTile(
+        leading: Column(
+          children: [
+            const ImageIcon(AssetImage("assets/icons/cash.png"), color: kSecondPrimaryColor,),
+            Text(amount, style: kTitleTextstyle.copyWith(color: const Color(0xFF6C6C6C), fontSize: 15, fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis),),
+          ],
+        ),
+        title: Text(ieDate),
+        subtitle: Text(description, style: kTitleTextstyle,),
+        trailing: IconButton(
+          hoverColor: kActiveStatus,
+          onPressed: onPressed, icon: const Icon(Icons.navigate_next)
+        ),
       )
     );
   }

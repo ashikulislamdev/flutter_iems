@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_iems/helpers/constants.dart';
+import 'package:flutter_iems/widgets/manage_page_card.dart';
 
 class ManagementCard extends StatelessWidget {
   final String iconPath;

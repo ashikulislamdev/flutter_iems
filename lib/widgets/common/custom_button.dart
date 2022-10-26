@@ -30,10 +30,10 @@ class CustomButton extends StatelessWidget {
               kPrimaryColor.withOpacity(0.9),
             ],
           ),
-          border: Border.all(
-            width: 2,
-            color: Colors.white.withOpacity(0.2),
-          ),
+          // border: Border.all(
+          //   width: 2,
+          //   color: Colors.white.withOpacity(0.2),
+          // ),
         ),
         child: Center(
           child: Text(
