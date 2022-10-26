@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iems/helpers/constants.dart';
 import 'package:flutter_iems/widgets/common/my_appbar.dart';
 import 'package:flutter_iems/widgets/common/my_drawer.dart';
+import 'package:flutter_iems/widgets/manage_page_card.dart';
 import 'package:flutter_iems/widgets/text_fields/reuseable_text_field.dart';
 import 'package:intl/intl.dart';
 
@@ -168,7 +169,7 @@ class _IncomesState extends State<Incomes> {
 
   
   TextEditingController amountController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
+  TextEditingController dateController = TextEditingController(text: getCurrentFormattedDate);
   TextEditingController descController = TextEditingController();
   
 
@@ -285,19 +286,12 @@ class _IncomesState extends State<Incomes> {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    ListTile(
-                      contentPadding: EdgeInsets.all(0),
-                      title: Text("1200"),
-                      subtitle: Text("This is the description of this income"),
-                      leading: Text("14-10-22"),
-                      //minLeadingWidth: dSize.width / 6,
-                      trailing: IconButton(
-                        
-                        onPressed: (){}, 
-                        icon: Icon(Icons.navigate_next, color: black,),
-                      ),
+                    ManagePageCard(
+                      description: "This is the description of this income $index", 
+                      ieDate: "14-10-22", amount: "1200", onPressed: (){}
                     ),
-                   Divider(color: kDividerColor, endIndent: 16, indent: 4,),
+                    
+                    const Divider(color: kDividerColor, endIndent: 16, indent: 4,),
                   ],
                 );
               },

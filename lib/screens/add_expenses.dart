@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iems/helpers/constants.dart';
 import 'package:flutter_iems/widgets/common/my_appbar.dart';
 import 'package:flutter_iems/widgets/common/my_drawer.dart';
+import 'package:flutter_iems/widgets/manage_page_card.dart';
 import 'package:flutter_iems/widgets/text_fields/reuseable_text_field.dart';
 import 'package:intl/intl.dart';
 
@@ -233,19 +234,12 @@ class _ExpensesState extends State<Expenses> {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    ListTile(
-                      contentPadding: EdgeInsets.all(0),
-                      title: Text("1200"),
-                      subtitle: Text("This is the description of this expenses"),
-                      leading: Text("14-10-22"),
-                      //minLeadingWidth: dSize.width / 6,
-                      trailing: IconButton(
-                        
-                        onPressed: (){}, 
-                        icon: Icon(Icons.navigate_next, color: black,),
-                      ),
+                    ManagePageCard(
+                      description: "This is the description of this expenses $index", 
+                      ieDate: "14-10-22", amount: "1700", onPressed: (){}
                     ),
-                   const Divider(color: kDividerColor, endIndent: 16, indent: 4,),
+                    
+                    const Divider(color: kDividerColor, endIndent: 16, indent: 4,),
                   ],
                 );
               },
@@ -290,20 +284,36 @@ class _AddCategoriesState extends State<AddCategories> {
           onTap: () {},
         ),
 
-
         SizedBox(height: kDefaultPadding * 2),
-        Column(
-          children: [
-            Text("All expenses categories", style: kHeadingTextStyle.copyWith(fontSize: 26),),
-            SizedBox(height: kDefaultPadding),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return Text("Categories$index");
-              },
-            ),
-          ],
+
+        Text("All expenses categories", style: kHeadingTextStyle.copyWith(fontSize: 26),),
+        SizedBox(height: kDefaultPadding),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: 5,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: kDefaultPadding, horizontal: kDefaultPadding),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: white,
+                  ),
+                  child: Text(
+                    "This is Category $index",
+                    style: kTitleTextstyle.copyWith(
+                      color: black.withOpacity(0.86),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                const Divider(color: kDividerColor, endIndent: 16, indent: 4,),
+              ],
+            );
+          },
         ),
         
       ],
