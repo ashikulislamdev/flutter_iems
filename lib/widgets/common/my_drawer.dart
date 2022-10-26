@@ -4,6 +4,8 @@ import 'package:flutter_iems/screens/add_expenses.dart';
 import 'package:flutter_iems/screens/add_income.dart';
 import 'package:flutter_iems/screens/home_screen.dart';
 import 'package:flutter_iems/screens/login_page.dart';
+import 'package:flutter_iems/screens/manage_expenses.dart';
+import 'package:flutter_iems/screens/manage_income.dart';
 import 'package:flutter_iems/screens/profile_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../general_card.dart';
@@ -94,7 +96,9 @@ class MyDrawer extends StatelessWidget {
           GeneralCard(
             image: "assets/icons/manage-income.png",
             title: "Manage Income",
-            onTap: () { },
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ManageIncome() ));
+            },
           ),
           buildDiv(),
           GeneralCard(
@@ -108,7 +112,9 @@ class MyDrawer extends StatelessWidget {
           GeneralCard(
             image: "assets/icons/manage-expense.png",
             title: "Manage Expenses",
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ManageExpenses() ));
+            },
           ),
           buildDiv(),
       

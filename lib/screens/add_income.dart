@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iems/helpers/constants.dart';
 import 'package:flutter_iems/widgets/common/my_appbar.dart';
 import 'package:flutter_iems/widgets/common/my_drawer.dart';
-import 'package:flutter_iems/widgets/common/reuseable_text_field.dart';
+import 'package:flutter_iems/widgets/text_fields/reuseable_text_field.dart';
 import 'package:intl/intl.dart';
 
 import '../widgets/common/custom_button.dart';
