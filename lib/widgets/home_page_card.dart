@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_iems/helpers/constants.dart';
-import 'package:flutter_iems/widgets/manage_page_card.dart';
 
 class ManagementCard extends StatelessWidget {
   final String iconPath;
@@ -39,7 +37,7 @@ class ManagementCard extends StatelessWidget {
           ElevatedButton(
             onPressed: onPressed, 
             style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(vertical: kDefaultPadding, horizontal: kDefaultPadding * 3),
+              padding: EdgeInsets.symmetric(vertical: kDefaultPadding - 8, horizontal: kDefaultPadding * 3),
               backgroundColor: white,
             ),
             child: Text("View All", style: kTitleTextstyle.copyWith(color: kPrimaryColor, fontSize: 16),),
