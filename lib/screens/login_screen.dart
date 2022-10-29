@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_iems/helpers/constants.dart';
-import 'package:flutter_iems/screens/home_screen.dart';
 import 'package:flutter_iems/widgets/text_fields/custom_text_field.dart';
 import 'package:flutter_iems/widgets/custom_txt_brn.dart';
 import 'package:http/http.dart' as http;
@@ -21,38 +20,25 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  void loginApi(String email, password) async{
-      http.Response response = await http.post(
-        // http://localhost/project/income-expense/login_api_post http://iems.callnsolution.com.bd/login_api_post
-
-        Uri.parse("http://localhost/project/income-expense/login_api_post", ),
-        body: {
-          email : email,
-          password : password
-        },
-      );
-      if (response.statusCode == 200) {
-        // var data = jsonDecode(response.body.toString());
-        // print(data);
-        print("api is okey");
-      }else{
-        print("Sorry, something wrong");
-      }
-  }
+ // http://localhost/project/income-expense/login_api_post 
+ // http://iems.callnsolution.com.bd/login_api_post  email:rsgroup150@gmail.com, password:rsdev
+ // https://reqres.in/api/login/  email:eve.holt@reqres.in, password:cityslicka
 
   Future<void> newLogin() async{
     if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
-      var response = await http.post(
-        Uri.parse("https://reqres.in/api/login/"),
-        body: ({
-          'email' : emailController.text,
-          'password' : passwordController.text
-        }),
+      var bodyMap = <String, dynamic>{};
+      bodyMap['eamail'] = 'email';
+      bodyMap['password'] = 'password';
+
+      http.Response response = await http.post(
+        Uri.parse("http://iems.callnsolution.com.bd/login_api_post"),
+        body: bodyMap,
       );
+
       print(response.statusCode);
       if (response.statusCode == 200) {
-        print(jsonDecode(response.body.toString()));
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomeScreen() ));
+        var data = jsonDecode(response.body.toString());
+        print(data);
       }else{
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Invalid cradential")));
       }
