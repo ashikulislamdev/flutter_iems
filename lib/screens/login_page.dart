@@ -20,24 +20,32 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _isVisible = false;
 
-  void pageRoute(String userEmail) async{
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString('newUserEmail', userEmail);
-    print(userEmail);
-  
-    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false);
-      
-  }
+
   @override
   void initState() {
     checkLogin();
     super.initState();
   }
-
+  
+  void pageRoute(String userId, userName, userPhone, userEmail, userPassword, userAddress, userProfile, userType, userRceiptId)async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString('currUserId', userId);
+    await preferences.setString('currUserName', userName);
+    await preferences.setString('currUserPhone', userPhone);
+    await preferences.setString('currUserEmail', userEmail);
+    await preferences.setString('currUserPassword', userPassword);
+    await preferences.setString('currUserAddress', userAddress);
+    await preferences.setString('currUserProfile', userProfile);
+    await preferences.setString('currUserType', userType);
+    await preferences.setString('currUserRceiptId', userRceiptId);
+  
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false);
+      
+  }
   //Check login
   void checkLogin() async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String? userEmail = sharedPreferences.getString('newUserEmail');
+    String? userEmail = sharedPreferences.getString('currUserEmail');
     if (userEmail != null) {
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false);
       
@@ -66,12 +74,19 @@ class _LoginPageState extends State<LoginPage> {
         Map<String, dynamic> data = jsonDecode(res);
 
         if(data['status'] == true){
-          var msg = data['massage'];
-          ScaffoldMessenger.of(context).showSnackBar( SnackBar(content: Text("$msg")));
-          //Here we save user email to the shared_preferences 
-          pageRoute(emailController.text);
+          //
+          var returnMsg = data['massage']!, userId = data['userId']!, userName = data['username']!, userPhone = data['phone_no']!, userEmail = data['email']!, userPassword = data['password']!, userAddress = data['address']!, userProfile = data['userprofile']!, userType = data['user_type']!, userRceiptId = data['receipt_id']!;
+          
+          //print("User Info $userId,$userName,$userPhone,$userEmail,$userPassword,$userAddress,$userProfile,$userType,$userRceiptId");
+
+          //return successfull msg
+          ScaffoldMessenger.of(context).showSnackBar( SnackBar(content: Text("$returnMsg")));
+
+          //Here we save user info to the shared_preferences 
+          pageRoute(userId, userName, userPhone, userEmail, userPassword, userAddress, userProfile, userType, userRceiptId);
 
         }else{
+          //return unsuccessful msg
           var msg = data['massage'];
           ScaffoldMessenger.of(context).showSnackBar( SnackBar(content: Text("$msg")));
         }
@@ -83,12 +98,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
   
-  // @override
-  // void dispose() {
-  //   emailController.dispose();
-  //   passwordController.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {

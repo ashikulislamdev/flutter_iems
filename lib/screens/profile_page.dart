@@ -4,10 +4,36 @@ import 'package:flutter_iems/screens/edit_profile.dart';
 import 'package:flutter_iems/widgets/common/my_appbar.dart';
 import 'package:flutter_iems/widgets/common/my_drawer.dart';
 import 'package:flutter_iems/widgets/icon_text_btn.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class UserProfile extends StatelessWidget {
+class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
 
+  @override
+  State<UserProfile> createState() => _UserProfileState();
+}
+
+class _UserProfileState extends State<UserProfile> {
+  String? userId = '', userName = '', userPhone = '', userEmail = '', userPassword = '', userAddress = '', userProfile = '', userType = '', userRceiptId = '';
+  @override
+  void initState() {
+    getUserInfo();
+    super.initState();
+  }
+  void getUserInfo() async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = sharedPreferences.getString('currUserId')!;
+      userName = sharedPreferences.getString('currUserName')!;
+      userPhone = sharedPreferences.getString('currUserPhone')!;
+      userEmail = sharedPreferences.getString('currUserEmail')!;
+      userPassword = sharedPreferences.getString('currUserPassword')!;
+      userAddress = sharedPreferences.getString('currUserAddress')!;
+      userProfile = sharedPreferences.getString('currUserProfile')!;
+      userType = sharedPreferences.getString('currUserType')!;
+      userRceiptId = sharedPreferences.getString('currUserRceiptId')!;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,20 +45,20 @@ class UserProfile extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding),
         child: Column(
           children: [
-            const CircleAvatar(
+            CircleAvatar(
               radius: 60,
               backgroundColor: Colors.white,
               child: CircleAvatar(
                 radius: 55,
-                backgroundImage: AssetImage("assets/images/profile_img.png"),
+                backgroundImage: NetworkImage("$baseLink$userProfile"),
               ),
             ),
             Text(
-              "Frances Garcia",
+              userName!,
               style: kHeadingTextStyle.copyWith(fontSize: 22),
             ),
             Text(
-              "Graphic Designer",
+              userEmail!,
               style: kTitleTextstyle.copyWith(
                 color: black.withOpacity(0.54),
               ),
@@ -48,21 +74,21 @@ class UserProfile extends StatelessWidget {
               )
             ),
             SizedBox(height: kDefaultPadding),
-            const ProfileInfoCard(
+            ProfileInfoCard(
               title: "Name",
-              subTitle: "Frances Garcia",
+              subTitle: userName!,
             ),
-            const ProfileInfoCard(
+            ProfileInfoCard(
               title: "Eamil",
-              subTitle: "frances@gmail.com",
+              subTitle: userEmail!,
             ),
-            const ProfileInfoCard(
+            ProfileInfoCard(
               title: "Phone",
-              subTitle: "01722832823",
+              subTitle: userPhone!,
             ),
-            const ProfileInfoCard(
+            ProfileInfoCard(
               title: "Address",
-              subTitle: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+              subTitle: userAddress!,
             ),
             
           ],

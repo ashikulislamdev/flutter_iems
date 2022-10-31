@@ -21,19 +21,23 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  String userEmail = '';
+  String? userId = '', userName = '', userEmail = '', userProfile = '';
   @override
   void initState() {
-    getUserEmail();
+    getUserInfo();
     super.initState();
   }
-  void getUserEmail() async{
+  void getUserInfo() async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
-      userEmail = sharedPreferences.getString('newUserEmail')!;
+      userId = sharedPreferences.getString('currUserId')!;
+      userName = sharedPreferences.getString('currUserName')!;
+      userEmail = sharedPreferences.getString('currUserEmail')!;
+      userProfile = sharedPreferences.getString('currUserProfile')!;
     });
   }
-  //exit 
+
+  //logout method
   void logOut() async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.clear();
@@ -62,7 +66,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     backgroundColor: kSecondPrimaryColor,
                     child: CircleAvatar(
                       radius: 40.r,
-                      backgroundImage: const AssetImage('assets/images/profile_img.png'),
+                      backgroundImage: NetworkImage("$baseLink$userProfile"),
                     ),
                   ),
                 ),
@@ -72,12 +76,12 @@ class _MyDrawerState extends State<MyDrawer> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "White Devil",
+                        userName!,
                         style: kHeadingTextStyle.copyWith(fontSize: 20),
                       ),
                       SizedBox(height: kDefaultPadding / 2),
                       Text(
-                        userEmail,
+                        userEmail!,
                         style: kTitleTextstyle.copyWith(
                             color: black.withOpacity(0.5)),
                       )
