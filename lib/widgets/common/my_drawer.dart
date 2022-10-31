@@ -8,12 +8,37 @@ import 'package:flutter_iems/screens/manage_expenses.dart';
 import 'package:flutter_iems/screens/manage_income.dart';
 import 'package:flutter_iems/screens/profile_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../general_card.dart';
 import '../info_card.dart';
 
 
-class MyDrawer extends StatelessWidget {
+class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
+
+  @override
+  State<MyDrawer> createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends State<MyDrawer> {
+  String userEmail = '';
+  @override
+  void initState() {
+    getUserEmail();
+    super.initState();
+  }
+  void getUserEmail() async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      userEmail = sharedPreferences.getString('newUserEmail')!;
+    });
+  }
+  //exit 
+  void logOut() async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.clear();
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +77,7 @@ class MyDrawer extends StatelessWidget {
                       ),
                       SizedBox(height: kDefaultPadding / 2),
                       Text(
-                        "devil@gmail.com",
+                        userEmail,
                         style: kTitleTextstyle.copyWith(
                             color: black.withOpacity(0.5)),
                       )
@@ -137,7 +162,7 @@ class MyDrawer extends StatelessWidget {
           },),
           buildDiv(),
           InfoCard(title: "Logout", onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginPage() ));
+            logOut();
           },),
           buildDiv(),
       

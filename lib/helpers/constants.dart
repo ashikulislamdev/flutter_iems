@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart'
-    show Alignment, Color, Colors, LinearGradient, MediaQueryData, WidgetsBinding;
+    show Alignment, Color, Colors, LinearGradient, MediaQueryData, Text, WidgetsBinding;
 import 'package:flutter/material.dart'
     show Color, Colors, FontWeight, TextStyle;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:http/http.dart' show MultipartRequest;
 import 'package:intl/intl.dart' show DateFormat, NumberFormat;
+import 'package:shared_preferences/shared_preferences.dart' show SharedPreferences;
 
 
 
@@ -45,7 +45,11 @@ const String kAddressNullError = 'Please Enter your address';
 const String kCountryNullError = 'Please Select your Country';
 const String kStateNullError = 'Please Select your State';
 
-const String baseLink = '';
+//ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("$msg")));
+
+Future<SharedPreferences> preferences = SharedPreferences.getInstance();
+
+const String baseLink = 'http://iems.callnsolution.com.bd/';
 
 const String playStoreUrl = 'https://play.google.com/store/apps/details?id= ';
 
@@ -56,11 +60,6 @@ Map<String, String> headers = {
   'Authorization': 'Bearer ...',
 };
 
-MultipartRequest postURL(String trail) =>
-    MultipartRequest('POST', Uri.parse(baseLink + trail));
-
-MultipartRequest getURL(String trail) =>
-    MultipartRequest('GET', Uri.parse(baseLink + trail));
 
 String numberFormateConvert(double? currency) =>
     currency != null ? numberFormat.format(currency) : '';

@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_iems/helpers/constants.dart';
 import 'package:flutter_iems/screens/home_screen.dart';
 import 'package:flutter_iems/widgets/custom_txt_brn.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,11 +14,81 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailControler = TextEditingController();
-  TextEditingController passwordControler = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   bool _isVisible = false;
+
+  void pageRoute(String userEmail) async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString('newUserEmail', userEmail);
+    print(userEmail);
+  
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false);
+      
+  }
+  @override
+  void initState() {
+    checkLogin();
+    super.initState();
+  }
+
+  //Check login
+  void checkLogin() async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? userEmail = sharedPreferences.getString('newUserEmail');
+    if (userEmail != null) {
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false);
+      
+    }
+  }
+
+  Future<void> newLogin() async{
+    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+      // dismiss keyboard during async call
+      //FocusScope.of(context).requestFocus(FocusNode());
+
+      var myBody = jsonEncode({
+        'email': emailController.text,
+        'password': passwordController.text,
+      });
+      // print(my_body);
+
+      http.Response response = await http.post(
+        Uri.parse("${baseLink}login_api_post"),
+        body: myBody,        
+      );
+      
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        var res =  response.body;
+        Map<String, dynamic> data = jsonDecode(res);
+
+        if(data['status'] == true){
+          var msg = data['massage'];
+          ScaffoldMessenger.of(context).showSnackBar( SnackBar(content: Text("$msg")));
+          //Here we save user email to the shared_preferences 
+          pageRoute(emailController.text);
+
+        }else{
+          var msg = data['massage'];
+          ScaffoldMessenger.of(context).showSnackBar( SnackBar(content: Text("$msg")));
+        }
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Something is wrong!")));
+      }
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Email and password required!")));
+    }
+  }
+  
+  // @override
+  // void dispose() {
+  //   emailController.dispose();
+  //   passwordController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +122,8 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.white),
-                      child: TextField(
-                        controller: emailControler,
+                      child: TextFormField(
+                        controller: emailController,
                         decoration: InputDecoration(
                           prefixIcon: ImageIcon(
                             const AssetImage("assets/icons/message_icon.png"),
@@ -70,6 +143,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           hintText: "Enter your email",
                         ),
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.emailAddress,
                       ),
                     ),
                     SizedBox(height: kDefaultPadding),
@@ -78,8 +153,8 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.white),
-                      child: TextField(
-                        controller: passwordControler,
+                      child: TextFormField(
+                        controller: passwordController,
                         obscureText: !_isVisible,
                         decoration: InputDecoration(
                           prefixIcon: ImageIcon(
@@ -114,6 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           hintText: "Enter your password",
                         ),
+                        textInputAction: TextInputAction.done,
                       ),
                     ),
                     SizedBox(height: kDefaultPadding),
@@ -124,8 +200,7 @@ class _LoginPageState extends State<LoginPage> {
               CustomTxtBtn(
                   btnText: "SIGN IN",
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                    newLogin();
                   }),
               
             ],

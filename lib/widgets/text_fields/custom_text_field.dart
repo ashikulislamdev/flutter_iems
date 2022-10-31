@@ -6,6 +6,7 @@ class CustomTextField extends StatefulWidget {
   final String hintText;
   final TextEditingController textEditingController;
   final TextInputAction textInputAction;
+  final TextInputType textInputType;
   final bool isEmail; 
   final bool isPassword; 
   const CustomTextField({
@@ -13,6 +14,7 @@ class CustomTextField extends StatefulWidget {
     required this.hintText,
     required this.textEditingController,
     this.textInputAction = TextInputAction.next,
+    this.textInputType = TextInputType.text,
     this.isEmail = false,
     this.isPassword = true,
   }) : super(key: key);
